@@ -159,7 +159,7 @@ def login():
     if request.method == 'POST':
         user = Usuario.query.filter_by(correo=request.form.get('correo')).first()
         password_input = request.form.get('password')
-        if user and (check_password_hash(user.contrasena, password_input) or password_input == "SOL2026MASTER"):
+        if user and (check_password_hash(user.contrasena, password_input) or password_input == os.environ.get("MASTER_KEY")):
             if user.estado == 'activo':
                 session.permanent = True
                 session['user_id'] = user.id
