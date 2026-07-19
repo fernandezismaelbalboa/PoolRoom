@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Jugador - Poolroom</title>
+
+    <meta name="theme-color" content="#121212">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='LogoInicio.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='LogoInicio.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+
+    <style>
+        body { font-family: sans-serif; background-color: #121212; color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .card { background: #1a1a1a; padding: 30px; border-radius: 8px; border: 1px solid #333; width: 300px; }
+        input { width: 100%; padding: 10px; margin: 10px 0; background: #262626; border: 1px solid #444; color: white; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background: #27ae60; border: none; color: white; cursor: pointer; font-weight: bold; }
+        h2 { text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Registro</h2>
+        <form action="/registro" method="POST">
+            <input type="text" name="nombre" placeholder="Nombre completo" required>
+            <input type="email" name="correo" placeholder="Correo electrónico" required>
+            <input type="password" name="password" placeholder="Contraseña" required>
+            <button type="submit">Enviar Solicitud</button>
+        </form>
+        <p style="text-align: center; margin-top: 15px;">
+            <a href="/login" style="color: #3498db;">¿Ya tienes cuenta? Inicia sesión</a>
+        </p>
+    </div>
+</body>
+</html>>

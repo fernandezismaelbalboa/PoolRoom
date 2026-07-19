@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poolroom - Cambiar Contraseña</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .card {
+            background: #1e1e1e;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            border-top: 5px solid #00b4d8;
+        }
+        h2 { margin-bottom: 10px; color: #00b4d8; }
+        p { color: #aaaaaa; font-size: 0.9rem; margin-bottom: 25px; }
+        .input-group { margin-bottom: 20px; text-align: left; }
+        label { display: block; margin-bottom: 8px; color: #aaaaaa; font-size: 0.9rem; }
+        input {
+            width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #333;
+            background-color: #2a2a2a; color: #fff; box-sizing: border-box;
+        }
+        input:focus { border-color: #00b4d8; outline: none; }
+        .btn {
+            width: 100%; padding: 12px; background-color: #00b4d8; color: #121212;
+            border: none; border-radius: 6px; font-weight: bold; font-size: 1rem;
+            cursor: pointer; transition: 0.3s; margin-top: 10px;
+        }
+        .btn:hover { background-color: #0096c7; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>🔒 Seguridad Poolroom</h2>
+        <p>Hola, <strong>{{ nombre }}</strong>. Por seguridad, debes cambiar tu contraseña temporal antes de continuar.</p>
+        
+        <form action="/cambiar-password" method="POST">
+            <input type="hidden" name="usuario_id" value="{{ usuario_id }}">
+            
+            <div class="input-group">
+                <label for="nueva_password">Nueva Contraseña</label>
+                <input type="password" id="nueva_password" name="nueva_password" placeholder="Mínimo 6 caracteres" required>
+            </div>
+            <button type="submit" class="btn">Guardar y Entrar</button>
+        </form>
+    </div>
+</body>
+</html>

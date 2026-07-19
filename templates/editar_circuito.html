@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Editar Circuito</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #1a1a1a; color: white; }
+        .container { max-width: 600px; margin: 0 auto; background: #2a2a2a; padding: 20px; border-radius: 8px; }
+        h2 { color: #00ccff; }
+        form { display: flex; flex-direction: column; gap: 15px; }
+        label { font-weight: bold; margin-bottom: 5px; }
+        input, textarea { padding: 10px; background: #333; color: white; border: 1px solid #555; border-radius: 4px; }
+        button { padding: 10px 20px; cursor: pointer; border: none; border-radius: 4px; font-weight: bold; }
+        .btn-guardar { background: #00cc00; color: white; }
+        .btn-cancelar { background: #ff6666; color: white; }
+        .info { background: #003d66; padding: 10px; border-radius: 4px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Editar Circuito</h2>
+
+        <div class="info">
+            <p><strong>Circuito actual:</strong> {{ circuito.nombre }}</p>
+        </div>
+
+        <form method="POST">
+            <div>
+                <label>Nombre del Circuito:</label>
+                <input type="text" name="nombre" value="{{ circuito.nombre }}" required>
+            </div>
+
+            <div>
+                <label>Calendario PDF:</label>
+                <p style="font-size: 12px; color: #aaa;">
+                    {% if circuito.calendario_pdf %}
+                        Archivo actual: <strong>{{ circuito.calendario_pdf }}</strong>
+                    {% else %}
+                        Sin archivo
+                    {% endif %}
+                </p>
+                <input type="file" name="archivo_calendario" accept=".pdf">
+            </div>
+
+            <div>
+                <label>Normativa PDF:</label>
+                <p style="font-size: 12px; color: #aaa;">
+                    {% if circuito.normativa_pdf %}
+                        Archivo actual: <strong>{{ circuito.normativa_pdf }}</strong>
+                    {% else %}
+                        Sin archivo
+                    {% endif %}
+                </p>
+                <input type="file" name="archivo_normativa" accept=".pdf">
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <button type="submit" class="btn-guardar">Guardar Cambios</button>
+                <a href="/admin#clasificaciones" style="text-decoration: none;">
+                    <button type="button" class="btn-cancelar">Cancelar</button>
+                </a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

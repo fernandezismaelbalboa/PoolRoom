@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Poolroom - Iniciar Sesión</title>
+
+    <meta name="theme-color" content="#121212">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <style>
+    body {
+        font-family: sans-serif;
+        background-color: #121212;
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .wrapper {
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    .login-card {
+        background: #1a1a1a;
+        padding: 26px;
+        border-radius: 12px;
+        width: 100%;
+        max-width: 380px;
+        border: 1px solid #2e2e2e;
+        margin: 0 auto;
+        box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+    }
+
+    .logo-container { text-align: center; margin-bottom: 18px; }
+    .logo-container img { width: 104px; border-radius: 50%; border: 2px solid #2e2e2e; }
+
+    .input-group { margin-bottom: 16px; }
+    .input-group label { display: block; margin-bottom: 7px; color: #aaa; font-size: 0.95rem; }
+    .input-group input {
+        width: 100%;
+        padding: 12px 12px;
+        background: #262626;
+        border: 1px solid #333;
+        color: white;
+        border-radius: 8px;
+        box-sizing: border-box;
+        outline: none;
+        transition: border-color 0.15s, transform 0.05s;
+    }
+    .input-group input:focus {
+        border-color: #e74c3c;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 12px;
+        background: #e74c3c;
+        border: none;
+        color: white;
+        cursor: pointer;
+        font-weight: 700;
+        border-radius: 8px;
+        margin-top: 10px;
+        transition: transform 0.05s, filter 0.2s;
+    }
+    .btn:hover { filter: brightness(1.05); }
+    .btn:active { transform: scale(0.99); }
+
+    .helper-row {
+        text-align: center;
+        margin-top: 15px;
+        margin-bottom: 5px;
+        color: #b8b8b8;
+        font-size: 0.95rem;
+    }
+    .helper-row a { color: #e74c3c; text-decoration: none; font-weight: 700; }
+    .helper-row a:hover { text-decoration: underline; }
+
+    .guest-box {
+        text-align: center;
+        margin-top: 16px;
+        border-top: 1px solid #333;
+        padding-top: 16px;
+    }
+
+    .guest-link {
+        color: #fff;
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-weight: 800;
+        border: 1px solid #e74c3c;
+        padding: 11px 12px;
+        display: block;
+        border-radius: 8px;
+        transition: background 0.2s, filter 0.2s;
+    }
+    .guest-link:hover { background: #e74c3c; filter: brightness(1.02); }
+
+    /* Contenedor opcional para mensajes (no cambia backend) */
+    .message {
+        display: none; /* queda oculto por defecto */
+        background: rgba(231, 76, 60, 0.15);
+        border: 1px solid rgba(231, 76, 60, 0.45);
+        padding: 10px 12px;
+        border-radius: 10px;
+        margin-bottom: 14px;
+        color: #ffd7d1;
+        font-weight: 600;
+        font-size: 0.95rem;
+        text-align: center;
+    }
+
+    .footer-fixed {
+        text-align: center;
+        margin-top: 18px;
+        color: #666;
+        font-size: 0.8rem;
+    }
+
+    @media (max-width: 420px) {
+        .login-card { padding: 22px; border-radius: 10px; }
+    }
+    </style>
+
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='LogoInicio.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='LogoInicio.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+</head>
+<body>
+    <div class="wrapper">
+        <div class="login-card">
+            <div class="logo-container">
+                <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Logo">
+            </div>
+
+            <!-- No toca backend: queda oculto; si luego pasas error por template, se puede activar -->
+            <div class="message" id="messageBox"> </div>
+
+            <form action="/login" method="POST">
+                <div class="input-group">
+                    <label for="correo">Correo Electrónico</label>
+                    <input type="email" id="correo" name="correo" required placeholder="tu@correo.com">
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" name="password" required placeholder="••••••••">
+                </div>
+
+                <button type="submit" class="btn">Iniciar Sesión</button>
+            </form>
+
+            <p class="helper-row">
+                ¿No tienes cuenta?
+                <a href="/registro">Regístrate aquí</a>
+            </p>
+
+            <div class="guest-box">
+                <a href="/login-invitado" class="guest-link">Entrar como Invitado</a>
+            </div>
+
+            <div class="footer-fixed">
+                <p style="margin: 0;">Poolroom App</p>
+                <p style="font-family: monospace; color: #888; margin: 0;">
+                    &copy; 2026 <span style="font-weight: bold; color: #fff;">BFLab</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

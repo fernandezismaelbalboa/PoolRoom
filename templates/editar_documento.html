@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Actualizar Archivo</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        form { display: flex; flex-direction: column; gap: 10px; }
+        input, button { padding: 10px; }
+        button { background-color: #0066cc; color: white; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Actualizar Archivo</h2>
+        <p><strong>Archivo actual:</strong> {{ doc.nombre }}</p>
+
+        <form method="POST" enctype="multipart/form-data">
+            <label>Seleccionar nuevo archivo:</label>
+            <input type="file" name="archivo" required>
+            <button type="submit">Actualizar archivo</button>
+            <a href="javascript:history.back()"><button type="button">Cancelar</button></a>
+        </form>
+    </div>
+</body>
+</html>

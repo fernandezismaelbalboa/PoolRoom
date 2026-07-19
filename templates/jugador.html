@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Jugador - Poolroom</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-principal: #0b0f17;
+            --bg-card: #131924;
+            --bg-sidebar: #0f141d;
+            --text-color: #ffffff;
+            --accent-blue: #00d2ff;
+            --accent-green: #10b981;
+            --border-color: #222d3d;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif !important;
+            background-color: var(--bg-principal);
+            color: var(--text-color) !important;
+            min-height: 100vh;
+        }
+
+        /* --- CABECERA SUPERIOR --- */
+        .navbar-custom {
+            background-color: var(--bg-sidebar);
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 25px;
+        }
+        .welcome-text {
+            font-weight: 500;
+            font-size: 1.05rem;
+        }
+        .welcome-text span {
+            color: var(--accent-blue);
+            font-weight: 700;
+        }
+
+        /* --- BARRA LATERAL --- */
+        .sidebar {
+            background: var(--bg-sidebar);
+            min-height: calc(100vh - 70px);
+            border-right: 1px solid var(--border-color);
+            padding: 25px 20px;
+        }
+        .nav-pills .nav-link {
+            color: #94a3b8 !important;
+            cursor: pointer;
+            border-radius: 8px;
+            padding: 12px 18px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            transition: all 0.2s ease;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .nav-pills .nav-link:hover {
+            background: #1e293b;
+            color: #ffffff !important;
+        }
+        .nav-pills .nav-link.active {
+            background-color: var(--accent-blue) !important;
+            color: #0b0f17 !important;
+            font-weight: 600;
+            box-shadow: 0 4px 14px rgba(0, 210, 255, 0.3);
+        }
+
+        /* --- TARJETAS PREMIUM --- */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 25px;
+            color: var(--text-color);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent-blue);
+        }
+
+        /* Títulos */
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 25px;
+            color: #ffffff;
+        }
+        .competicion-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+
+        /* Datos de la competición */
+        .meta-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .meta-item {
+            background: #1c2533;
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .meta-item strong {
+            color: #ffffff;
+        }
+
+        /* Botones estilo cuadricula adaptados */
+        .btn-bases {
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            border: none;
+            color: #ffffff !important;
+            font-weight: 600;
+            padding: 10px 20px !important;
+            border-radius: 8px !important;
+            box-shadow: 0 4px 12px rgba(0, 114, 255, 0.2);
+            transition: all 0.2s ease;
+        }
+        .btn-bases:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 114, 255, 0.4);
+        }
+
+        .btn-billarteo-grid {
+            background: #1b222b;
+            border: 1px solid #2d3846;
+            color: #ffffff;
+            padding: 12px 10px !important;
+            border-radius: 8px !important;
+            text-align: center;
+            display: block;
+            width: 100%;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .btn-billarteo-grid:hover {
+            background: #242e3a;
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+        .btn-billarteo-grid .icon { font-size: 1.2rem; margin-bottom: 2px; display: block; }
+        .btn-billarteo-grid .text { font-size: 0.75rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #cbd5e1; }
+
+        /* Desplegables de Clasificaciones */
+        .collapse-bar-billarteo {
+            background: #161d24;
+            border: 1px solid #252f3d;
+            padding: 14px 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            margin-bottom: 10px;
+            font-weight: 600;
+            text-align: left;
+            width: 100%;
+            color: #ffffff;
+            transition: background 0.2s;
+            border: none;
+        }
+        .collapse-bar-billarteo:hover { background: #1c2630; }
+        .collapse-bar-billarteo::before { content: "▶"; margin-right: 12px; color: var(--accent-blue); font-size: 0.75rem; transition: transform 0.2s; display: inline-block; }
+        .collapse-bar-billarteo[aria-expanded="true"]::before { transform: rotate(90deg); }
+
+        .sub-document-item {
+            background: #1f2731;
+            border: 1px solid #313d4f;
+            color: #e2e8f0;
+            padding: 12px 18px;
+            border-radius: 6px;
+            display: block;
+            width: 100%;
+            text-align: left;
+            text-decoration: none;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .sub-document-item:hover {
+            background: #283341;
+            color: var(--accent-blue);
+            border-color: var(--accent-blue);
+            padding-left: 22px;
+        }
+
+        /* --- BANNER DE ESTADO --- */
+        .status-banner {
+            border-radius: 12px;
+            padding: 18px 22px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-left: 5px solid;
+        }
+
+        .status-banner.aprobado {
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-left: 5px solid var(--accent-green);
+        }
+        .status-banner.aprobado .status-icon {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent-green);
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        .status-banner.aprobado h6 { color: var(--accent-green); font-weight: 700; margin: 0 0 2px 0; font-size: 1rem; }
+        .status-banner.aprobado p { color: #a7f3d0; margin: 0; font-size: 0.85rem; }
+
+        .status-banner.pendiente {
+            background: rgba(245, 158, 11, 0.08);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            border-left: 5px solid #f59e0b;
+        }
+        .status-banner.pendiente .status-icon {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        .status-banner.pendiente h6 { color: #f59e0b; font-weight: 700; margin: 0 0 2px 0; font-size: 1rem; }
+        .status-banner.pendiente p { color: #fef3c7; margin: 0; font-size: 0.85rem; }
+
+        /* --- LISTADO DE CONFIRMADOS --- */
+        .confirmados-box {
+            background: #171f2c;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 22px;
+        }
+        .confirmados-header {
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--accent-blue);
+            font-weight: 700;
+            margin-bottom: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+        .confirmados-header::after {
+            content: "▶";
+            margin-left: auto;
+            color: var(--accent-blue);
+            font-size: 0.8rem;
+            transition: transform 0.2s ease;
+        }
+        .confirmados-header[aria-expanded="true"]::after {
+            transform: rotate(90deg);
+        }
+        .confirmados-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 12px;
+            padding: 0;
+            list-style: none;
+            margin: 0;
+        }
+        .confirmados-item {
+            background: #1e2736;
+            border: 1px solid #283548;
+            padding: 12px 16px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: transform 0.15s ease;
+        }
+        .confirmados-item:hover { transform: translateY(-2px); border-color: #34465e; }
+        .confirmados-item .badge-check {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-green);
+            font-size: 0.95rem;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .confirmados-item span { font-size: 0.95rem; font-weight: 500; color: #ffffff; }
+
+        /* --- RESPONSIVO --- */
+        @media (max-width: 768px) {
+            .tab-pane { display: none !important; }
+            .tab-pane.active { display: block !important; }
+            .sidebar { min-height: auto !important; padding: 15px !important; border-right: none; border-bottom: 1px solid var(--border-color); }
+            .nav-pills { display: flex !important; flex-direction: row !important; justify-content: space-around !important; gap: 5px; }
+            .nav-link { padding: 10px 12px !important; font-size: 0.8rem !important; margin-bottom: 0; }
+            .card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid navbar-custom">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <div class="welcome-text">Bienvenido, <span>{{ user.nombre }}</span></div>
+            </div>
+            <div class="col-md-6 text-end">
+                {% if user.rol == 'admin' %}
+                    <a href="/admin" class="btn btn-warning btn-sm fw-semibold" style="border-radius: 6px;">Volver a Administrador</a>
+                {% endif %}
+                <a href="/logout" class="btn btn-outline-danger btn-sm ms-2 fw-semibold" style="border-radius: 6px;">Cerrar sesión</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 sidebar">
+                <div class="nav flex-column nav-pills" role="tablist">
+                    <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#competiciones">
+                        <span>🏆</span> Competiciones
+                    </button>
+                    <button class="nav-link" data-bs-toggle="pill" data-bs-target="#clasificaciones">
+                        <span>📊</span> Clasificaciones
+                    </button>
+                    <button class="nav-link" data-bs-toggle="pill" data-bs-target="#tienda">
+                        <span>🛒</span> Tienda
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-md-10 p-4">
+                <div class="tab-content">
+
+                    <div class="tab-pane fade show active" id="competiciones" role="tabpanel">
+                        <h2 class="section-title">Competiciones Disponibles</h2>
+
+                        {% for c in competiciones %}
+                        <div class="card">
+                            <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
+                                <div>
+                                    <h3 class="competicion-title">{{ c.nombre }}</h3>
+                                    <div class="meta-grid">
+                                        <div class="meta-item">
+                                            <span>📍</span> Lugar: <strong>{{ c.lugar }}</strong>
+                                        </div>
+                                        <div class="meta-item">
+                                            <span>💵</span> Inscripción: <strong>{{ c.precio }}€</strong>
+                                        </div>
+                                        {% if c.max_participantes and c.max_participantes > 0 %}
+                                        <div class="meta-item">
+                                            <span>👥</span> Plazas Máximas: <strong>{{ c.max_participantes }}</strong>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% if c.documentacion %}
+                                    <a href="{{ url_for('static', filename='uploads/' + c.documentacion) }}" target="_blank" class="btn-bases">
+                                        📄 Ver Bases de la Competición
+                                    </a>
+                                {% endif %}
+                            </div>
+
+                            {% set inscripcion_actual = none %}
+                            {% for i in mis_inscripciones if i.competicion_id == c.id %}
+                                {% set inscripcion_actual = i %}
+                            {% endfor %}
+
+                            {% if inscripcion_actual %}
+                                {% if inscripcion_actual.estado|string|lower|trim == 'aprobado' %}
+                                    <div class="status-banner aprobado">
+                                        <div class="status-icon">✓</div>
+                                        <div>
+                                            <h6>Estado: Aprobado</h6>
+                                            <p>¡Tu inscripción ha sido confirmada correctamente! Estás dentro del listado oficial.</p>
+                                        </div>
+                                    </div>
+                                {% elif inscripcion_actual.estado|string|lower|trim == 'pendiente' %}
+                                    <div class="status-banner pendiente">
+                                        <div class="status-icon">⧗</div>
+                                        <div>
+                                            <h6>Estado: Pendiente de Confirmación</h6>
+                                            <p>Hemos recibido tu solicitud. El administrador validará el pago en breve.</p>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                                <div class="p-4 mb-4 rounded" style="background: rgba(255,255,255,0.02); border: 1px dashed var(--border-color);">
+                                    <h5 class="mb-3" style="font-size: 1.1rem; color: #cbd5e1; font-weight: 600;">Inscribirse en esta competición:</h5>
+
+                                    <form action="/inscribirse/{{ c.id }}" method="POST" enctype="multipart/form-data" class="row g-3 align-items-end">
+                                        <div class="col-md-4">
+                                            <label class="form-label small text-secondary fw-semibold">Nombre y Apellidos del solicitante:</label>
+                                            <input type="text" name="nombre_jugador" class="form-control form-control-sm bg-dark text-white border-secondary py-2" placeholder="Ej: Juan Pérez" required>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label class="form-label small text-secondary fw-semibold">Sube tu comprobante de pago:</label>
+                                            <input type="file" name="comprobante" class="form-control form-control-sm bg-dark text-white border-secondary py-2" required>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label class="form-label small text-secondary fw-semibold">Nº de cuenta para ingreso:</label>
+                                            <div class="bg-dark p-2 rounded text-info small font-monospace text-center" style="border: 1px solid var(--border-color); height: 38px; display: flex; align-items: center; justify-content: center;">
+                                                {{ c.iban }}
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 text-end mt-3">
+                                            <button type="submit" class="btn btn-success btn-sm px-4 py-2 fw-semibold" style="box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);">Enviar Solicitud Oficial</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            {% endif %}
+
+                            <!-- BLOQUE ACORDEÓN: JUGADORES CONFIRMADOS -->
+                            <div class="confirmados-box" style="border: 1px solid rgba(16, 185, 129, 0.3);">
+                                <button class="confirmados-header" type="button" data-bs-toggle="collapse" data-bs-target="#accordionConfirmados-{{ c.id }}" aria-expanded="false" aria-controls="accordionConfirmados-{{ c.id }}">
+                                    <span>🎯</span> Jugadores Confirmados para esta cita
+                                </button>
+
+                                <div id="accordionConfirmados-{{ c.id }}" class="collapse mt-3" data-bs-parent=".card">
+                                    <ul class="confirmados-list">
+                                        {% for i in todas_las_inscripciones if i.competicion_id == c.id %}
+                                            <li class="confirmados-item">
+                                                <div class="badge-check">✓</div>
+                                                {% set nombre_limpio = i.nombre_jugador|string %}
+                                                {% set nombre_limpio = nombre_limpio.replace('✅', '')|trim %}
+                                                <span>{{ nombre_limpio }}</span>
+                                            </li>
+                                        {% else %}
+                                            <li class="text-secondary small italic">Aún no hay jugadores confirmados para este torneo.</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                            <div class="card text-center py-5">
+                                <span style="font-size: 3rem;">🏆</span>
+                                <h4 class="mt-3">No hay competiciones activas</h4>
+                                <p class="text-secondary">Vuelve a consultar más tarde para inscribirte en los próximos torneos.</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="tab-pane fade" id="clasificaciones" role="tabpanel">
+                        <h2 class="section-title">Circuitos y Clasificaciones</h2>
+                        {% for c in circuitos %}
+                            <div class="card">
+                                <div class="d-flex align-items-center gap-2 mb-3">
+                                    <span style="font-size: 1.4rem;">🏅</span>
+                                    <h3 class="competicion-title m-0">{{ c.nombre }}</h3>
+                                </div>
+                                <div class="row g-2 mb-4">
+                                    <div class="col-6">
+                                        {% if c.calendario_pdf %}
+                                            <a href="{{ url_for('static', filename='uploads/' + c.calendario_pdf) }}" target="_blank" class="btn-billarteo-grid">
+                                                <span class="icon">📅</span>
+                                                <span class="text">Calendario</span>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-6">
+                                        {% if c.normativa_pdf %}
+                                            <a href="{{ url_for('static', filename='uploads/' + c.normativa_pdf) }}" target="_blank" class="btn-billarteo-grid">
+                                                <span class="icon">📄</span>
+                                                <span class="text">Normativa</span>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% for temp in c.temporadas %}
+                                    <button class="collapse-bar-billarteo" type="button" data-bs-toggle="collapse" data-bs-target="#temp-{{ temp.id }}" aria-expanded="false">
+                                        {{ temp.nombre }}
+                                    </button>
+                                    <div class="collapse mb-2" id="temp-{{ temp.id }}" data-bs-parent=".card">
+                                        <div class="ps-2 pe-2 py-2">
+                                            {% for doc in temp.documentos %}
+                                                <a href="{{ url_for('static', filename='uploads/' + doc.nombre_archivo) }}" target="_blank" class="sub-document-item">
+                                                    🔹 {{ doc.titulo }}
+                                                </a>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="tab-pane fade" id="tienda" role="tabpanel">
+                        <h2 class="section-title">Tienda del Club</h2>
+                        {% include 'tienda.html' %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Persistencia de pestañas
+        var lastTab = localStorage.getItem('lastActiveTabJugador');
+        if (lastTab) {
+            var triggerEl = document.querySelector('button[data-bs-target="' + lastTab + '"]');
+            if (triggerEl) {
+                var tab = new bootstrap.Tab(triggerEl);
+                tab.show();
+            }
+        }
+
+        // Persistencia de acordeones (Jugadores Confirmados y Temporadas)
+        document.querySelectorAll('.collapse').forEach(function(el) {
+            var id = el.getAttribute('id');
+            if (localStorage.getItem('collapse_' + id) === 'true') {
+                el.classList.add('show');
+                var btn = document.querySelector('[data-bs-target="#' + id + '"]');
+                if (btn) btn.setAttribute('aria-expanded', 'true');
+            }
+        });
+
+        document.querySelectorAll('[data-bs-toggle="collapse"]').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var targetId = btn.getAttribute('data-bs-target').replace('#', '');
+                setTimeout(function() {
+                    var isExpanded = btn.getAttribute('aria-expanded') === 'true';
+                    localStorage.setItem('collapse_' + targetId, isExpanded);
+                }, 300);
+            });
+        });
+    });
+
+    var triggerTabList = [].slice.call(document.querySelectorAll('button[data-bs-toggle="pill"]'));
+    triggerTabList.forEach(function (triggerEl) {
+        triggerEl.addEventListener('shown.bs.tab', function (event) {
+            localStorage.setItem('lastActiveTabJugador', event.target.getAttribute('data-bs-target'));
+        });
+    });
+    </script>
+</body>
+</html>

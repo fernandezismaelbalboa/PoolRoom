@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+
+    {# --- CABECERA (SOLO LOGO CENTRAL) --- #}
+    <div class="row align-items-center my-5">
+        <div class="col-12 text-center">
+            <img src="{{ url_for('static', filename='images/logo_senshi.png', v=2) }}"
+                 alt="SENSHI"
+                 class="img-fluid"
+                 style="max-width: 350px;">
+            <p class="text-muted mt-2 tracking-widest">SNOOKER & POOL TABLES</p>
+        </div>
+    </div>
+
+    <h3 class="text-warning">Tienda del Club</h3>
+
+    {# --- AQUÍ EMPIEZA TU CÓDIGO DE SIEMPRE (TOTALMENTE INTACTO) --- #}
+    {% set estructura = {
+        'Tacos de Billar': ['Flechas Pool', 'Flechas Carom', 'Tacos de Saque', 'Tacos de Salto', 'Tacos Senshi'],
+        'Guantes': ['Guantes'],
+        'Tizas': ['Tizas'],
+        'Paños': ['Paños'],
+        'Otros Accesorios': ['Otros Accesorios'],
+        'Material de Segunda mano': ['Material de Segunda mano']
+    } %}
+
+    <ul class="nav nav-tabs mt-4" id="tiendaTabs" role="tablist">
+        {% for grupo, subs in estructura.items() %}
+        <li class="nav-item">
+            <button class="nav-link {% if loop.first %}active{% endif %}" data-bs-toggle="tab" data-bs-target="#tab-{{ grupo|replace(' ', '') }}">{{ grupo }}</button>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <div class="tab-content mt-3">
+        {% for grupo, subs in estructura.items() %}
+        <div class="tab-pane fade {% if loop.first %}show active{% endif %}" id="tab-{{ grupo|replace(' ', '') }}">
+
+            {% if grupo == 'Tacos de Billar' %}
+                <ul class="nav nav-pills mt-3">
+                    {% for sub in subs %}
+                    <li class="nav-item"><a class="nav-link {% if loop.first %}active{% endif %}" data-bs-toggle="pill" href="#sub-{{ sub|replace(' ', '') }}">{{ sub }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            <div class="tab-content mt-3">
+                {% for sub in subs %}
+                <div class="tab-pane fade {% if loop.first %}show active{% endif %}" id="sub-{{ sub|replace(' ', '') }}">
+                    <div class="row">
+                        {# FILTRO CORREGIDO Y ROBUSTO #}
+                        {% for p in productos if p.categoria|trim|lower == sub|trim|lower %}
+                        <div class="col-md-3 mb-3">
+                            <div class="card p-3 bg-dark text-white" style="border: 1px solid #444;">
+                                {% if p.fotos %}
+                                <div id="carousel-{{ p.id }}" class="carousel slide mb-2" data-bs-ride="carousel">
+                                    <div class="carousel-inner">
+                                        {% for foto in p.fotos %}
+                                        <div class="carousel-item {% if loop.first %}active{% endif %}">
+                                            <img src="{{ url_for('static', filename='uploads/' + foto.nombre_archivo) }}"
+                                                 class="d-block w-100 rounded" style="cursor: pointer; height: 180px; object-fit: contain; background: #000;"
+                                                 data-bs-toggle="modal" data-bs-target="#modal-{{ p.id }}-{{ loop.index }}">
+                                        </div>
+                                        <div class="modal fade" id="modal-{{ p.id }}-{{ loop.index }}" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg modal-dialog-centered">
+                                                <div class="modal-content bg-dark">
+                                                    <div class="modal-body p-1"><img src="{{ url_for('static', filename='uploads/' + foto.nombre_archivo) }}" class="img-fluid w-100"></div>
+                                                    <div class="modal-footer border-0"><button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cerrar</button></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                {% endif %}
+                                <h6>{{ p.nombre }}</h6>
+                                {% if p.descripcion %}
+                                    <p class="small text-white-50 mb-2" style="font-size: 0.85rem;">{{ p.descripcion }}</p>
+                                {% endif %}
+                                <p class="text-info fw-bold">{{ p.precio }} €</p>
+                                <div class="d-flex gap-2">
+                                    <a href="https://wa.me/34610355660?text={{ ('Hola, quiero pedir: ' + p.nombre)|urlencode }}" class="btn btn-primary btn-sm flex-grow-1" target="_blank">Pedir</a>
+                                    {% if session.get('modo_visual') == 'admin' %}
+                                        <a href="{{ url_for('borrar_producto', id=p.id) }}" class="btn btn-danger btn-sm">X</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
