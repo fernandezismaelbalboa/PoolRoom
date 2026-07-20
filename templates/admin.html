@@ -14,30 +14,24 @@
         .card { background: #1c1c1c; border: 1px solid #444; border-radius: 12px; padding: 25px; margin-bottom: 20px; color: #ffffff; }
         .nav-link { color: #ffffff !important; cursor: pointer; }
         .nav-link.active { background-color: #3498db !important; }
-
         /* Mejora visual de botones generales */
         .btn { padding: 10px 20px !important; border-radius: 10px !important; font-weight: 500; transition: all 0.3s ease; }
-
         /* --- ESTILOS ESTILO "CLUB BILLARTEO" PARA CLASIFICACIONES --- */
         .circuit-header { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
         .circuit-title { color: #00d2ff; font-weight: 600; font-size: 1.4rem; text-transform: uppercase; letter-spacing: 0.5px; margin: 0; }
-
         /* Botones de Calendario y Normativa */
         .btn-billarteo-grid { background: #1b222b; border: 1px solid #2d3846; color: #ffffff; padding: 15px 10px !important; border-radius: 8px !important; text-align: center; display: block; width: 100%; text-decoration: none; transition: all 0.2s ease; }
         .btn-billarteo-grid:hover { background: #242e3a; border-color: #00d2ff; color: #00d2ff; }
         .btn-billarteo-grid .icon { font-size: 1.3rem; margin-bottom: 4px; display: block; }
         .btn-billarteo-grid .text { font-size: 0.75rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #cbd5e1; }
-
         /* Barras Desplegables Principales (Temporadas / Clasificación) */
         .collapse-bar-billarteo { background: #161d24; border: 1px solid #252f3d; padding: 14px 20px; border-radius: 6px; display: flex; align-items: center; cursor: pointer; margin-bottom: 10px; font-weight: 500; text-align: left; width: 100%; color: #ffffff; transition: background 0.2s; border-style: solid; }
         .collapse-bar-billarteo:hover { background: #1c2630; }
         .collapse-bar-billarteo::before { content: "▶"; margin-right: 12px; color: #00d2ff; font-size: 0.75rem; transition: transform 0.2s; display: inline-block; }
         .collapse-bar-billarteo[aria-expanded="true"]::before { transform: rotate(90deg); }
-
         /* Documentos finales dentro de los desplegables */
         .sub-document-item { background: #1f2731; border: 1px solid #313d4f; color: #e2e8f0; padding: 12px 18px; border-radius: 6px; display: block; width: 100%; text-decoration: none; margin-bottom: 6px; font-size: 0.9rem; transition: all 0.2s; }
         .sub-document-item:hover { background: #283341; color: #00d2ff; border-color: #00d2ff; padding-left: 22px; }
-
         /* --- ESTILOS EXCLUSIVOS PARA LOS ACORDEONES --- */
         .accordion-item-custom {
             background-color: #161d24 !important;
@@ -53,13 +47,12 @@
             box-shadow: none !important;
         }
         .accordion-button-custom::after {
-            filter: invert(1) hue-rotate(180deg); /* Mantiene la flecha visible en fondos oscuros */
+            filter: invert(1) hue-rotate(180deg);
         }
         .accordion-button-custom:not(.collapsed) {
             background-color: #1c2630 !important;
             color: #00d2ff !important;
         }
-
         /* Modificación para el acordeón verde de confirmados */
         .accordion-button-success {
             color: #2ecc71 !important;
@@ -67,12 +60,10 @@
         .accordion-button-success:not(.collapsed) {
             color: #2ecc71 !important;
         }
-
         .player-row:hover {
             background-color: rgba(255, 255, 255, 0.03);
             transition: background 0.2s ease;
         }
-
         /* --- CORRECCIÓN PARA MÓVIL: OCULTAR PANELES INACTIVOS --- */
         @media (max-width: 768px) {
             .tab-pane { display: none !important; }
@@ -81,20 +72,17 @@
             .nav-pills { display: flex !important; flex-direction: row !important; justify-content: space-around !important; margin-bottom: 20px !important; }
             .nav-link { padding: 8px 10px !important; font-size: 0.75rem !important; }
         }
-
         /* Estilos para las pestañas internas dentro del acordeón */
 .accordion-body .nav-tabs .nav-link {
     color: #aaa !important;
     border: none !important;
     border-bottom: 2px solid transparent !important;
 }
-
 .accordion-body .nav-tabs .nav-link.active {
     color: #00d2ff !important;
     border-bottom: 2px solid #00d2ff !important;
     background: none !important;
 }
-
 .accordion-body .nav-tabs .nav-link:hover {
     color: #fff !important;
     border-bottom: 2px solid #555 !important;
@@ -112,7 +100,6 @@
             </div>
         </div>
     </div>
-
     <!-- CONTENEDOR PRINCIPAL -->
     <div class="container-fluid mt-4">
         <div class="row">
@@ -125,18 +112,15 @@
                     <button class="nav-link" data-bs-toggle="pill" data-bs-target="#tienda">Tienda</button>
                 </div>
             </div>
-
             <!-- CONTENIDO DE LAS PESTAÑAS -->
             <div class="col-md-10 p-4">
                 <div class="tab-content">
-
                     <!-- PESTAÑA 1: GESTIÓN DE USUARIOS -->
                     <div class="tab-pane fade show active" id="usuarios" role="tabpanel">
                         <h2 class="mb-4">Gestionar Jugadores</h2>
                         <div class="card">
                             <h3>Administración Propia:</h3>
                             <a href="/admin/reset-password/{{ user.id }}" class="btn btn-warning btn-sm mb-4">Resetear mi contraseña</a>
-
                             <!-- BUSCADOR EN TIEMPO REAL -->
                             <div class="mb-3">
                                 <div class="input-group">
@@ -144,7 +128,6 @@
                                     <input type="text" id="buscador-jugadores" class="form-control bg-secondary text-white border-0" placeholder="Buscar jugador por nombre..." aria-label="Buscar" aria-describedby="search-addon" style="border-radius: 0 10px 10px 0 !important;">
                                 </div>
                             </div>
-
                             <!-- ACORDEÓN DESPLEGABLE CON EL LISTADO DE JUGADORES -->
                             <div class="accordion" id="accordionJugadores">
                                 <div class="accordion-item accordion-item-custom">
@@ -155,7 +138,6 @@
                                     </h2>
                                     <div id="collapseJugadores" class="accordion-collapse collapse" aria-labelledby="headingJugadores" data-bs-parent="#accordionJugadores">
                                         <div class="accordion-body p-0" id="contenedor-jugadores">
-
                                             {% for j in pendientes + activos + suspendidos %}
                                                 <div class="d-flex justify-content-between align-items-center p-3 border-bottom border-secondary border-opacity-25 player-row" data-nombre="{{ j.nombre | lower }}">
                                                     <span>
@@ -180,16 +162,13 @@
                                             {% else %}
                                                 <div class="p-4 text-center text-secondary italic">No hay jugadores registrados en el sistema.</div>
                                             {% endfor %}
-
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <!-- FIN DEL ACORDEÓN JUGADORES -->
-
                         </div>
                     </div>
-
                     <!-- PESTAÑA 2: GESTIÓN DE COMPETICIONES -->
                     <div class="tab-pane fade" id="competiciones" role="tabpanel">
                         <h2 class="mb-4">Gestión de Competiciones</h2>
@@ -206,21 +185,17 @@
                                 <input type="datetime-local" name="fecha_limite" class="form-control mb-2">
                                 <input type="number" name="precio" placeholder="Precio (€)" class="form-control mb-2" step="0.01" required>
                                 <input type="text" name="iban" placeholder="IBAN" class="form-control mb-2" required>
-
                                 <label class="form-label">Límite de Participantes:</label>
                                 <input type="number" name="max_participantes" placeholder="Escribe un número (Ej: 32 o 0 para ilimitado)" class="form-control mb-3" min="0" required>
-
                                 <div class="form-check form-switch mb-3">
                                     <input class="form-check-input" type="checkbox" id="es_publica" name="es_publica">
                                     <label class="form-check-label text-warning" for="es_publica" style="cursor: pointer;">
                                         <strong>🔓 Hacer competición pública (visible para invitados)</strong>
                                     </label>
                                 </div>
-
                                 <button type="submit" class="btn btn-success">Guardar Competición</button>
                             </form>
                         </div>
-
                         <h2 class="mt-5 mb-4">Listado de Competiciones</h2>
                         {% for c in competiciones %}
                         <div class="card" style="border: 1px solid #3498db;">
@@ -228,11 +203,9 @@
                                 <h5 class="m-0">
                                     {{ c.nombre }}
                                     <small style="color: #ccc;">| {{ c.lugar }}</small>
-
                                     <span class="badge bg-primary ms-2" style="font-size: 0.75rem;">
                                         Plazas: {% if c.max_participantes and c.max_participantes > 0 %}{{ c.max_participantes }}{% else %}Ilimitadas{% endif %}
                                     </span>
-
                                     {% if c.es_publica %}
                                         <span class="badge bg-success ms-2" style="font-size: 0.75rem;">Pública</span>
                                     {% else %}
@@ -249,14 +222,12 @@
                                             🔓 Hacer Pública
                                         </a>
                                     {% endif %}
-
                                     {% if c.documentacion %}
                                         <a href="{{ url_for('static', filename='uploads/' + c.documentacion) }}" target="_blank" class="btn btn-info btn-sm me-2">Ver Bases PDF</a>
                                     {% endif %}
                                     <a href="/admin/borrar-competicion/{{ c.id }}" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar esta competición de forma definitiva?')">Borrar</a>
                                 </div>
                             </div>
-
                             <!-- ACORDEÓN 1: SOLICITUDES E INSCRIPCIONES (AZUL) -->
 <div class="accordion mb-3" id="accordionInscripciones-{{ c.id }}">
     <div class="accordion-item accordion-item-custom">
@@ -279,7 +250,6 @@
                         <a class="nav-link" data-bs-toggle="tab" href="#rechazados-{{ c.id }}" style="color: #fff; border-radius: 6px 6px 0 0;">❌ Rechazados</a>
                     </li>
                 </ul>
-
                 <!-- CONTENIDO DE LAS PESTAÑAS -->
                 <div class="tab-content">
                     <!-- TAB 1: PENDIENTES -->
@@ -309,7 +279,6 @@
                                                 <td style="padding: 12px;">
                                                     <a href="/admin/aprobar-inscripcion/{{ i.id }}" class="btn btn-success btn-sm" style="border-radius: 4px;">Aprobar</a>
                                                     <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalRechazar{{ i.id }}" style="border-radius: 4px;">Rechazar</button>
-
                                                     <!-- MODAL RECHAZO -->
                                                     <div class="modal fade" id="modalRechazar{{ i.id }}" tabindex="-1">
                                                         <div class="modal-dialog">
@@ -319,7 +288,7 @@
                                                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                                                                 </div>
                                                                 <div class="modal-body">
-                                                                    <textarea name="motivo" class="form-control" style="background: #262626; color: #fff; border: 1px solid #333;" required placeholder="Explica por qué rechazas la inscripción..."></textarea>
+                                                                    <textarea name="motivo_rechazo" class="form-control" style="background: #262626; color: #fff; border: 1px solid #333;" required placeholder="Explica por qué rechazas la inscripción..."></textarea>
                                                                 </div>
                                                                 <div class="modal-footer" style="border-top: 1px solid #333;">
                                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -338,7 +307,6 @@
                             </table>
                         </div>
                     </div>
-
                     <!-- TAB 2: APROBADOS -->
                     <div class="tab-pane fade" id="aprobados-{{ c.id }}">
                         <div class="table-responsive">
@@ -375,7 +343,6 @@
                             </table>
                         </div>
                     </div>
-
                     <!-- TAB 3: RECHAZADOS -->
                     <div class="tab-pane fade" id="rechazados-{{ c.id }}">
                         <div class="table-responsive">
@@ -411,7 +378,6 @@
         </div>
     </div>
 </div>
-
                             <!-- ACORDEÓN 2: JUGADORES CONFIRMADOS (VERDE) -->
                             <div class="accordion mb-3" id="accordionConfirmados-{{ c.id }}">
                                 <div class="accordion-item accordion-item-custom" style="border-color: #2ecc71 !important;">
@@ -422,12 +388,10 @@
                                     </h2>
                                     <div id="collapseConfirmados-{{ c.id }}" class="accordion-collapse collapse" aria-labelledby="headingConfirmados-{{ c.id }}" data-bs-parent="#accordionConfirmados-{{ c.id }}">
                                         <div class="accordion-body p-3 bg-dark">
-
                                             <div class="d-flex justify-content-between align-items-center mb-3">
                                                 <span class="text-success small" style="font-weight: 600;">Listado Oficial:</span>
                                                 <button type="button" class="btn btn-outline-success btn-sm py-1 px-2" style="font-size: 0.8rem; border-radius: 6px !important;" onclick="descargarListadoConfirmados('{{ c.id }}', '{{ c.nombre }}')">Descargar PDF</button>
                                             </div>
-
                                             <ul class="list-unstyled m-0 mb-3" id="lista-confirmados-{{ c.id }}">
                                                 {% for i in inscripciones if i.competicion_id == c.id and i.estado|string|lower|trim == 'aprobado' %}
                                                     <li class="jugador-confirmado-item d-flex justify-content-between align-items-center p-2 border-bottom border-secondary border-opacity-25 player-row">
@@ -440,7 +404,6 @@
                                                     <li class="small italic text-secondary p-3 text-center">Aún no hay jugadores aprobados.</li>
                                                 {% endfor %}
                                             </ul>
-
                                             <!-- FORMULARIO DE INSCRIPCIÓN MANUAL -->
                                             <div class="border-top pt-2 mt-2" style="border-color: #333 !important;">
                                                 <form action="/admin/inscribir-manual/{{ c.id }}" method="POST" class="d-flex gap-2">
@@ -450,20 +413,16 @@
                                                     </button>
                                                 </form>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                         {% endfor %}
                     </div>
-
                   <!-- PESTAÑA 3: GESTIÓN DE CLASIFICACIONES -->
 <div class="tab-pane fade" id="clasificaciones" role="tabpanel">
     <h2 class="mb-4">Gestión de Clasificaciones por Temporada</h2>
-
     <!-- PANEL CREAR CIRCUITO -->
     <div class="card mb-4" style="background: #141414; border: 1px dashed #444;">
         <h5 class="text-warning">⚙️ Panel de Control: Crear Circuito</h5>
@@ -474,11 +433,9 @@
             <div class="col-md-2"><button type="submit" class="btn btn-success btn-sm w-100">Crear</button></div>
         </form>
     </div>
-
     <div class="billarteo-container px-1">
         {% for c in circuitos %}
             <div class="mb-5 pb-4" style="border-bottom: 2px solid #333;">
-
                 <!-- HEADER CON NOMBRE Y BOTONES EDITAR/BORRAR -->
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h3 class="text-light mb-0">🏅 {{ c.nombre }}</h3>
@@ -487,7 +444,6 @@
                         <a href="{{ url_for('borrar_circuito', id=c.id) }}" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que quieres borrar este circuito y TODAS sus temporadas?')">🗑️ Borrar</a>
                     </div>
                 </div>
-
                 <!-- ENLACES A CALENDARIO Y NORMATIVA -->
                 <div class="mb-3">
                     {% if c.calendario_pdf %}
@@ -497,7 +453,6 @@
                         <a href="{{ url_for('static', filename='uploads/' + c.normativa_pdf) }}" target="_blank" class="text-info">📄 Ver Normativa</a>
                     {% endif %}
                 </div>
-
                 <!-- FORMULARIO PARA CREAR TEMPORADA -->
                 <form action="{{ url_for('crear_temporada', circuito_id=c.id) }}" method="POST" class="row g-2 mb-3 bg-dark p-2 rounded">
                     <div class="col-md-10">
@@ -507,7 +462,6 @@
                         <button type="submit" class="btn btn-info btn-sm w-100">Añadir Temporada</button>
                     </div>
                 </form>
-
                 <!-- LISTADO DE TEMPORADAS -->
                 {% for temp in c.temporadas %}
                     <div class="card mb-3" style="background: #181d24; border: 1px solid #2b3644;">
@@ -522,7 +476,6 @@
                                 <div class="col-md-5"><input type="file" name="archivo" class="form-control form-control-sm" accept="application/pdf" required></div>
                                 <div class="col-md-2"><button type="submit" class="btn btn-primary btn-sm w-100">Subir</button></div>
                             </form>
-
                             <!-- LISTADO DE DOCUMENTOS DE LA TEMPORADA -->
                             <ul class="list-group list-group-flush">
                                 {% for doc in temp.documentos %}
@@ -544,11 +497,9 @@
         {% endfor %}
     </div>
 </div>
-
                     <!-- PESTAÑA 4: GESTIÓN DE TIENDA -->
                     <div class="tab-pane fade" id="tienda" role="tabpanel">
                         <h2 class="mb-4">Tienda del Club</h2>
-
                         <!-- CREACIÓN DE PRODUCTOS -->
                         <div class="card mb-4">
                             <h5>Añadir nuevo producto</h5>
@@ -577,18 +528,15 @@
                                 </div>
                             </form>
                         </div>
-
                         <!-- LISTADO E INCLUSIÓN DE PRODUCTOS EXISTENTES -->
                         <div class="card bg-black border-0 p-0">
                             {% include 'tienda.html' %}
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
-
     <!-- SCRIPTS DE BOOTSTRAP Y LÓGICA DE INTERACTIVIDAD -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -599,7 +547,6 @@
                 const query = this.value.toLowerCase().trim();
                 const filas = document.querySelectorAll('#contenedor-jugadores .player-row');
                 let matches = 0;
-
                 filas.forEach(row => {
                     const nombre = row.getAttribute('data-nombre') || '';
                     if (nombre.includes(query)) {
@@ -609,8 +556,6 @@
                         row.style.setProperty('display', 'none', 'important');
                     }
                 });
-
-                // Si el acordeón está cerrado al escribir, lo desplegamos automáticamente para ver resultados
                 const collapseElement = document.getElementById('collapseJugadores');
                 if (collapseElement && query.length > 0) {
                     const bsCollapse = bootstrap.Collapse.getOrCreateInstance(collapseElement);
@@ -618,17 +563,13 @@
                 }
             });
         }
-
         // 2. FUNCIÓN PARA GENERAR Y DESCARGAR EL LISTADO DE CONFIRMADOS EN PDF EN LIMPIO
         function descargarListadoConfirmados(competicionId, nombreCompeticion) {
             const listItems = document.querySelectorAll(`#lista-confirmados-${competicionId} li.jugador-confirmado-item`);
-
             if (listItems.length === 0 || listItems[0].classList.contains('italic')) {
                 alert('No hay jugadores aprobados en esta competición para descargar.');
                 return;
             }
-
-            // Abrimos la impresión del navegador enfocada en este listado para convertirlo a PDF de forma limpia
             let printWindow = window.open('', '', 'height=600,width=800');
             printWindow.document.write(`
                 <html>
@@ -649,20 +590,16 @@
                     <p>Generado el: ${new Date().toLocaleDateString()} a las ${new Date().toLocaleTimeString()}</p>
                     <ol>
             `);
-
             listItems.forEach(item => {
-                // Limpiamos el texto para no arrastrar el icono del aspa (x) de borrar ni el emoji de check
                 let nombreClean = item.textContent.replace('✅', '').replace('×', '').trim();
                 printWindow.document.write(`<li>${nombreClean}</li>`);
             });
-
             printWindow.document.write(`
                     </ol>
                     <div class="footer">Poolroom - Panel de Administrador</div>
                 </body>
                 </html>
             `);
-
             printWindow.document.close();
             printWindow.focus();
             setTimeout(() => {
@@ -677,7 +614,6 @@
     const tab = e.target;
     const pane = document.querySelector(tab.getAttribute('data-bs-target'));
     if (!pane) return;
-
     setTimeout(() => {
       pane.style.display = '';
     }, 0);

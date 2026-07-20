@@ -19,7 +19,12 @@ CATEGORIAS_TIENDA = [
 app = Flask(__name__)
 
 # Configuración de sesión permanente (10 años) y clave secreta
-app.secret_key = 'c5f9d8a4e3b2f1a6c9d8e7b4a2f1c9d8e7b4a2f1c9d8e7b4'
+app.secret_key = os.environ.get('SECRET_KEY')
+if not app.secret_key:
+    raise RuntimeError(
+        "Falta la variable de entorno SECRET_KEY. "
+        "Definila antes de arrancar la app (no debe ir escrita en el código)."
+    )
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
 
 @app.before_request
@@ -264,11 +269,26 @@ def aprobar_inscripcion(id):
 def rechazar_inscripcion(id):
     try:
         i = Inscripcion.query.get_or_404(id)
-        db.session.delete(i)
+
+        # Acepta tanto 'motivo' (como está en tu modal) como 'motivo_rechazo'
+        motivo = request.form.get('motivo_rechazo') or request.form.get('motivo') or ''
+        if not motivo or motivo.strip() == '':
+            motivo = "Rechazado sin motivo especificado."
+        else:
+            motivo = motivo.strip()
+
+        i.estado = 'rechazado'
+        i.mensaje_rechazo = motivo
+
         db.session.commit()
+
+        return redirect(url_for('panel_admin', _anchor='rechazados'))
+
     except Exception as e:
         db.session.rollback()
-    return redirect(url_for('panel_admin') + '#competiciones')
+        print("ERROR AL RECHAZAR:", str(e))
+        return f"<h3>Error al rechazar: {str(e)}</h3><a href='/admin'>Volver al panel</a>", 500
+
 
 @app.route('/admin/crear-competicion', methods=['POST'])
 @admin_required
@@ -336,28 +356,66 @@ def inscribir_manual(competicion_id):
 @app.route('/inscribirse/<int:id>', methods=['GET', 'POST'])
 def inscribirse(id):
     competicion = Competicion.query.get_or_404(id)
-    if competicion.max_participantes is None: competicion.max_participantes = 0
-    es_invitado = (session.get('modo_visual') == 'invitado' or 'user_id' not in session or session['user_id'] is None)
+
+    if competicion.max_participantes is None:
+        competicion.max_participantes = 0
+
+    # Determinar si es invitado
+    es_invitado = (
+        session.get('modo_visual') == 'invitado'
+        or 'user_id' not in session
+        or session['user_id'] is None
+    )
+
+    user = db.session.get(Usuario, session.get('user_id')) if not es_invitado else None
+
     if es_invitado and not competicion.es_publica:
         return "Acceso denegado.", 403
+
+    # Contar inscripciones válidas
     inscritos_actuales = Inscripcion.query.filter(
         Inscripcion.competicion_id == competicion.id,
         Inscripcion.estado != 'rechazado'
     ).count()
+
     if competicion.max_participantes > 0 and inscritos_actuales >= competicion.max_participantes:
         return f"<h3>Cupo máximo alcanzado.</h3><a href='{url_for('panel_jugador')}'>Volver</a>"
+
     if request.method == 'POST':
         file = request.files.get('comprobante')
-        if file:
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            nombre_final = request.form.get('nombre_jugador_invitado') if es_invitado else request.form.get('nombre_jugador')
-            id_usuario = None if es_invitado else session['user_id']
-            nueva_insc = Inscripcion(competicion_id=competicion.id, usuario_id=id_usuario, nombre_jugador=nombre_final, comprobante=filename, estado='pendiente')
-            db.session.add(nueva_insc)
-            db.session.commit()
-            return f'<h3>Inscripción enviada.</h3><a href="{url_for("panel_jugador")}">Volver</a>'
-    return render_template('inscribirse.html', competicion=competicion)
+
+        if not file or file.filename == '':
+            return "<h3>Error: Debes subir un comprobante de pago.</h3><a href='" + url_for('inscribirse', id=id) + "'>Volver</a>"
+
+        # Guardar archivo
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+        # === CORRECCIÓN PRINCIPAL ===
+        if es_invitado:
+            nombre_final = request.form.get('nombre_jugador')
+            id_usuario = None
+            if not nombre_final or nombre_final.strip() == '':
+                return "<h3>Error: Debes ingresar tu nombre completo.</h3><a href='" + url_for('inscribirse', id=id) + "'>Volver</a>"
+        else:
+            nombre_final = user.nombre
+            id_usuario = session['user_id']
+
+        # Crear inscripción
+        nueva_insc = Inscripcion(
+            competicion_id=competicion.id,
+            usuario_id=id_usuario,
+            nombre_jugador=nombre_final,
+            comprobante=filename,
+            estado='pendiente'
+        )
+
+        db.session.add(nueva_insc)
+        db.session.commit()
+
+        return f'<h3>Inscripción enviada correctamente.</h3><a href="{url_for("panel_jugador")}">Volver al panel</a>'
+
+    return render_template('inscribirse.html', competicion=competicion, user=user)
 
 @app.route('/tienda')
 def tienda():
